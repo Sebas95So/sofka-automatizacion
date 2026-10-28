@@ -96,3 +96,32 @@ test('TC02 - Verificar prodcutos y el total del carrito', async ({ page }) => {
 
 })
 
+//Test Case 03
+test('TC03 - Completar formulario de compra', async ({ page }) => {
+  const homePage = new HomePage(page);
+  const productPage = new ProductPage(page);
+
+  // Preparar el carrito con los dos productos.
+  await prepararCarrito(page, homePage, productPage);
+
+  //Abrir el carrito
+  await page.getByRole('link', {
+    name: 'Cart',
+    exact: true
+  }).click();
+
+  //Abrir el formulario de compra
+  await page.getByRole('button', {
+    name: 'Place Order',
+  }).click();
+
+  //Completar el formulario
+  await page.locator('#name').fill('Sebastian Salazar');
+  await page.locator('#country').fill('Ecuador');
+  await page.locator('#city').fill('Quito');
+  await page.locator('#card').fill('123456789');
+  await page.locator('#month').fill('01');
+  await page.locator('#year').fill('2023');
+})
+
+
