@@ -1,0 +1,43 @@
+CONCLUSIONES - PRUEBAS FUNCIONALES E2E DEMOBLAZE
+
+1. OBJETIVO
+
+Se implementaron pruebas automatizadas para validar el flujo funcional de compra de la aplicación Demoblaze mediante Playwright y TypeScript.
+
+2. ALCANCE
+
+Se desarrollaron cuatro casos de prueba:
+
+- TC01: agregar dos productos al carrito y comprobar que estén presentes.
+- TC02: verificar los productos y comparar la suma de sus precios con el total mostrado por la aplicación.
+- TC03: completar el formulario de compra y validar los valores ingresados.
+- TC04: finalizar la compra y comprobar la aparición del mensaje de confirmación.
+
+3. IMPLEMENTACIÓN
+
+Se utilizó una estructura sencilla de Page Object Model para separar las acciones de navegación y de interacción con los productos.
+
+También se implementaron funciones reutilizables para preparar el carrito y completar el formulario de compra, evitando repetir código entre los casos de prueba.
+
+4. VALIDACIONES REALIZADAS
+
+Durante las ejecuciones realizadas se verificó que:
+
+- Los productos seleccionados aparezcan en el carrito.
+- La suma calculada a partir de los precios de las filas coincida con el total mostrado por la aplicación.
+- Los campos del formulario conserven los valores ingresados.
+- La aplicación muestre el mensaje de confirmación después de finalizar la compra.
+
+5. RESULTADOS
+
+Durante el desarrollo se corrigieron problemas relacionados con el manejo de alertas y la navegación entre páginas.
+
+Los cuatro casos funcionales fueron ejecutados satisfactoriamente durante el desarrollo.
+
+Nota: los resultados definitivos deben corresponder a la última ejecución completa del proyecto. Se recomienda ejecutar nuevamente todos los casos y conservar el reporte generado como evidencia.
+
+6. CONCLUSIÓN GENERAL
+
+La automatización permite repetir las validaciones del flujo de compra y detectar posibles regresiones de manera más eficiente que mediante la ejecución exclusivamente manual.
+
+El proyecto constituye una base para ampliar la cobertura funcional y mantener las pruebas automatizadas conforme evolucione la aplicación.
