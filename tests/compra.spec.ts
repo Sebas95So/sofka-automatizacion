@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { HomePage } from '../pages/home.page';
 import { ProductPage } from '../pages/product.page';
 
-
+//Función para preparar el carrito con dos productos.
 async function prepararCarrito(
   page: Page,
   homePage: HomePage,
@@ -27,6 +27,16 @@ async function prepararCarrito(
   }).click();
 
   await productPage.addToCart();
+}
+
+//Función para completar el formulario de compra.
+async function completarFormularioCompra(page: Page) {
+  await page.locator('#name').fill('Sebastian Salazar');
+  await page.locator('#country').fill('Ecuador');
+  await page.locator('#city').fill('Quito');
+  await page.locator('#card').fill('4111111111111111');
+  await page.locator('#month').fill('10');
+  await page.locator('#year').fill('2028');
 }
 
 
@@ -116,12 +126,50 @@ test('TC03 - Completar formulario de compra', async ({ page }) => {
   }).click();
 
   //Completar el formulario
-  await page.locator('#name').fill('Sebastian Salazar');
-  await page.locator('#country').fill('Ecuador');
-  await page.locator('#city').fill('Quito');
-  await page.locator('#card').fill('123456789');
-  await page.locator('#month').fill('01');
-  await page.locator('#year').fill('2023');
+  await completarFormularioCompra(page);
+
+  //Verificar los campos
+  await expect(page.locator('#name')).toHaveValue('Sebastian Salazar');
+  await expect(page.locator('#country')).toHaveValue('Ecuador');
+  await expect(page.locator('#city')).toHaveValue('Quito');
+  await expect(page.locator('#card')).toHaveValue('4111111111111111');
+  await expect(page.locator('#month')).toHaveValue('10');
+  await expect(page.locator('#year')).toHaveValue('2028');
 })
 
+//Test Case 04
+test('TC04 - Finalizar la compra', async ({ page }) => {
+  const homePage = new HomePage(page);
+  const productPage = new ProductPage(page);
 
+  // Preparar el carrito con los dos productos.
+  await prepararCarrito(page, homePage, productPage);
+
+  //Abrir el carrito
+  await page.getByRole('link', {
+    name: 'Cart',
+    exact: true
+  }).click();
+
+  //Abrir el formulario de compra
+  await page.getByRole('button', {
+    name: 'Place Order',
+  }).click();
+
+  //Completar el formulario
+  await completarFormularioCompra(page);
+
+  //Finalizar la compra
+  await page.getByRole('button', {
+    name: 'Purchase',
+    exact: true
+  }).click();
+
+  // Verificar que se muestre el mensaje de confirmación.
+  const mensajeConfirmacion = page.getByText(
+    'Thank you for your purchase!',
+    { exact: true }
+  );
+
+  await expect(mensajeConfirmacion).toBeVisible();
+})
